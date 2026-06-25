@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Penilaian Interaktif Bahasa Melayu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .tab-btn.active { border-bottom: 4px solid #4f46e5; color: #4f46e5; font-weight: bold; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .btn-option { transition: all 0.2s; }
+        .btn-option.wrong { background-color: #fee2e2; border-color: #ef4444; color: #b91c1c; transform: translateX(5px); }
+        .btn-option.correct { background-color: #dcfce3; border-color: #22c55e; color: #15803d; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        .btn-option:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-6 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight"><i class="fas fa-graduation-cap mr-3"></i>Kuiz Interaktif Bahasa Melayu</h1>
+            <p class="mt-2 text-indigo-200 text-lg">Aplikasi pengayaan santai untuk menguji minda pada waktu lapang.</p>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="bg-white text-gray-600 shadow-inner">
+            <div class="max-w-5xl mx-auto px-4 flex justify-between overflow-x-auto">
+                <button onclick="showTab('A')" id="tabA" class="tab-btn active px-6 py-4 whitespace-nowrap hover:text-indigo-600 transition">Bahagian A (Objektif)</button>
+                <button onclick="showTab('B')" id="tabB" class="tab-btn px-6 py-4 whitespace-nowrap hover:text-indigo-600 transition">Bahagian B</button>
+                <button onclick="showTab('C')" id="tabC" class="tab-btn px-6 py-4 whitespace-nowrap hover:text-indigo-600 transition">Bahagian C</button>
+                <button onclick="showTab('D')" id="tabD" class="tab-btn px-6 py-4 whitespace-nowrap hover:text-indigo-600 transition">Bahagian D</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-8 relative">
+        
+        <!-- Score Dashboard for Bahagian A -->
+        <div id="scoreBoard" class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-8 flex justify-between items-center shadow-sm">
+            <div>
+                <h2 class="text-lg font-bold text-indigo-800">Skor Bahagian A</h2>
+                <p class="text-sm text-indigo-600">Markah diberi jika dijawab betul dalam 1 atau 2 percubaan.</p>
+            </div>
+            <div class="text-3xl font-extrabold text-indigo-600 bg-white px-6 py-2 rounded-lg shadow-inner">
+                <span id="currentScore">0</span> / 10
+            </div>
+        </div>
+
+        <!-- Bahagian A -->
+        <section id="secA" class="fade-in space-y-8">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
+                <p class="text-sm text-yellow-800"><strong>Arahan:</strong> Pilih jawapan yang paling sesuai. Anda boleh mencuba sehingga mendapat jawapan yang betul, namun markah hanya dikira jika anda berjaya pada percubaan pertama atau kedua.</p>
+            </div>
+            <div id="questionsContainerA"></div>
+        </section>
+
+        <!-- Bahagian B -->
+        <section id="secB" class="fade-in hidden space-y-8">
+            <div class="glass-card p-6 md:p-8">
+                <h2 class="text-2xl font-bold border-b pb-2 mb-4">Soalan 1</h2>
+                <div class="bg-gray-50 p-4 rounded-lg mb-6 border border-gray-200">
+                    <p class="leading-relaxed">Faiz, Siva dan Lim menyertai program kitar semula yang dianjurkan oleh Kelab Kitar Semula sekolah mereka. Mereka mengumpul barang-barang terpakai dan terbuang. Pelbagai bahan yang boleh dikitar semula seperti kaca, kertas, tin dan plastik.</p>
+                    <p class="leading-relaxed mt-2">Mereka mengasingkan barang-barang tersebut mengikut tong kitar semula yang telah disediakan. Projek kitar semula dapat mewujudkan persekitaran sekolah yang bersih. Seterusnya, dapat membantu mengurangkan pencemaran alam.</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Q1a -->
+                    <div>
+                        <label class="block font-semibold mb-2">a) Faiz, Siva dan Lim mengumpul barang-barang terpakai dan...</label>
+                        <input type="text" id="ansB1a" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini...">
+                    </div>
+                    <!-- Q1b -->
+                    <div>
+                        <label class="block font-semibold mb-2">b) Apakah bahan yang boleh dikitar semula?</label>
+                        <textarea id="ansB1b" rows="2" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini..."></textarea>
+                    </div>
+                    <!-- Q1c -->
+                    <div>
+                        <label class="block font-semibold mb-2">c) Berikan satu kata nama khas yang terdapat dalam petikan di atas.</label>
+                        <input type="text" id="ansB1c" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini...">
+                    </div>
+                    <!-- Q1d -->
+                    <div>
+                        <label class="block font-semibold mb-2">d) Tuliskan ( BETUL ) bagi ayat yang sama maksud dengan: "Projek kitar semula dapat mewujudkan persekitaran sekolah yang bersih."</label>
+                        <div class="space-y-2 mt-2">
+                            <label class="flex items-center space-x-3 p-3 border rounded hover:bg-gray-50 cursor-pointer">
+                                <input type="radio" name="b1d" value="opt1" class="form-radio text-indigo-600 h-5 w-5">
+                                <span>Persekitaran sekolah yang bersih dapat diwujudkan dengan projek kitar semula.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 border rounded hover:bg-gray-50 cursor-pointer">
+                                <input type="radio" name="b1d" value="opt2" class="form-radio text-indigo-600 h-5 w-5">
+                                <span>Persekitaran sekolah yang bersih dapat mewujudkan projek kitar semula.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="checkSubjective('B1')" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-700 transition">Hantar Jawapan Soalan 1</button>
+                    
+                    <div id="feedbackB1" class="hidden mt-6 p-5 bg-green-50 border-l-4 border-green-500 rounded">
+                        <h4 class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Cadangan Jawapan & Ulasan</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-green-900">
+                            <li><strong>a)</strong> terbuang. <em>(Ulasan: Jawapan terdapat secara terus pada baris kedua perenggan pertama.)</em></li>
+                            <li><strong>b)</strong> Kaca, kertas, tin dan plastik. <em>(Ulasan: Menyenaraikan bahan yang dinyatakan dalam petikan.)</em></li>
+                            <li><strong>c)</strong> Faiz / Siva / Lim / Kelab Kitar Semula. <em>(Ulasan: Kata nama khas merujuk kepada nama orang atau nama pertubuhan yang spesifik.)</em></li>
+                            <li><strong>d)</strong> Pilihan Pertama (Persekitaran sekolah yang bersih dapat diwujudkan...). <em>(Ulasan: Ini ialah ayat pasif yang betul bagi ayat aktif yang diberikan. Pilihan kedua mengubah maksud sebenar.)</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 md:p-8 mt-8">
+                <h2 class="text-2xl font-bold border-b pb-2 mb-4">Soalan 2</h2>
+                <div class="bg-gray-50 p-4 rounded-lg mb-6 border border-gray-200 italic">
+                    "Ketika pulang dari sekolah, kamu terlihat seorang lelaki warga emas yang bertongkat hendak melintas jalan. Namun, kamu perlu pulang awal ke rumah untuk segera bersiap-siap bagi menghadiri latihan rumah sukan pada pukul 3.00 petang."
+                </div>
+                <div>
+                    <label class="block font-semibold mb-2">Berdasarkan situasi di atas, apakah tindakan yang akan kamu lakukan? (Tidak lebih 30 patah perkataan)</label>
+                    <textarea id="ansB2" rows="4" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Tuliskan tindakan anda..."></textarea>
+                </div>
+                <button onclick="checkSubjective('B2')" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-700 transition">Hantar Jawapan Soalan 2</button>
+                
+                <div id="feedbackB2" class="hidden mt-6 p-5 bg-green-50 border-l-4 border-green-500 rounded">
+                    <h4 class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Cadangan Jawapan & Ulasan</h4>
+                    <p class="text-green-900"><strong>Jawapan:</strong> Saya akan membantu lelaki warga emas itu melintas jalan dengan pantas dan berhati-hati terlebih dahulu. Kemudian, saya akan segera pulang ke rumah untuk bersiap ke latihan sukan.</p>
+                    <p class="text-green-800 text-sm mt-2"><em>Ulasan: Tindakan yang cemerlang perlu menunjukkan nilai murni (membantu orang tua) sambil tetap bertanggungjawab pada komitmen sendiri (latihan sukan).</em></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bahagian C -->
+        <section id="secC" class="fade-in hidden space-y-8">
+            <div class="glass-card p-6 md:p-8">
+                <h2 class="text-2xl font-bold border-b pb-2 mb-4">Bahagian C: Ulasan (10 Markah)</h2>
+                <p class="mb-4">Tuliskan pendapat kamu tentang <strong>kepentingan pusat sumber sekolah</strong> berdasarkan peta minda di bawah. Panjang jawapan tidak lebih daripada 50 patah perkataan dalam satu perenggan.</p>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="border-2 border-indigo-200 rounded-xl p-6 bg-indigo-50 text-center w-full max-w-lg">
+                        <div class="bg-indigo-600 text-white py-2 px-4 rounded shadow mb-4 inline-block font-bold">Kepentingan Pusat Sumber Sekolah</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white border border-indigo-200 p-3 rounded shadow-sm">Tempat mengulang kaji</div>
+                            <div class="bg-white border border-indigo-200 p-3 rounded shadow-sm">Meminjam buku</div>
+                            <div class="bg-white border border-indigo-200 p-3 rounded shadow-sm">Bahan rujukan mudah didapati</div>
+                        </div>
+                        <div class="mt-4 bg-white border border-indigo-200 p-3 rounded shadow-sm col-span-3">Menambahkan ilmu pengetahuan</div>
+                    </div>
+                </div>
+
+                <textarea id="ansC" rows="6" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Tuliskan ulasan anda dalam satu perenggan di sini..."></textarea>
+                <button onclick="checkSubjective('C')" class="mt-4 w-full md:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg shadow hover:bg-indigo-700 transition font-bold">Hantar Ulasan</button>
+                
+                <div id="feedbackC" class="hidden mt-6 p-6 bg-green-50 border-l-4 border-green-500 rounded-lg">
+                    <h4 class="font-bold text-green-800 text-lg mb-2"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i>Contoh Jawapan Cemerlang</h4>
+                    <p class="text-green-900 leading-relaxed text-justify">Pusat sumber sekolah sangat penting kerana dapat menambahkan ilmu pengetahuan murid-murid. Selain itu, ia menyediakan tempat mengulang kaji pelajaran yang selesa dan kondusif. Kita juga boleh meminjam pelbagai jenis buku manakala bahan rujukan mudah didapati untuk menyiapkan tugasan sekolah yang diberikan oleh guru.</p>
+                    <div class="mt-4 bg-white p-3 rounded border border-green-200">
+                        <p class="text-sm text-green-800"><strong>Ulasan Guru:</strong> Pastikan anda menggabungkan kesemua isi yang diberikan menggunakan penanda wacana yang sesuai (Selain itu, manakala, juga) dalam satu perenggan sahaja.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bahagian D -->
+        <section id="secD" class="fade-in hidden space-y-8">
+            <div class="glass-card p-6 md:p-8">
+                <h2 class="text-2xl font-bold border-b pb-2 mb-4">Bahagian D: Karangan (20 Markah)</h2>
+                <p class="mb-4 text-gray-700">Tulis sebuah karangan (cerita atau surat) berdasarkan situasi <strong>Aktiviti Semasa Waktu Rehat di Sekolah</strong>. Panjang karangan antara 50 hingga 80 patah perkataan.</p>
+                
+                <!-- Ilustrasi tiruan -->
+                <div class="bg-gray-100 border rounded-lg p-8 mb-6 text-center text-gray-500">
+                    <i class="fas fa-school text-6xl mb-4 text-gray-300"></i>
+                    <p><em>[Ilustrasi: Murid membaca di pondok bacaan, bermain catur di bangku, dan menyiram pokok di Taman Sains]</em></p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-semibold mb-2">Pilih Format Karangan:</label>
+                    <select id="formatD" class="p-2 border rounded w-full md:w-1/3 focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="cerita">Cerita (Tidak Berformat)</option>
+                        <option value="surat">Surat Kiriman Tidak Rasmi</option>
+                    </select>
+                </div>
+
+                <textarea id="ansD" rows="8" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Karang jawapan anda di sini..."></textarea>
+                <button onclick="checkSubjective('D')" class="mt-4 w-full md:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg shadow hover:bg-indigo-700 transition font-bold">Hantar Karangan</button>
+                
+                <div id="feedbackD" class="hidden mt-6 p-6 bg-green-50 border-l-4 border-green-500 rounded-lg">
+                    <h4 class="font-bold text-green-800 text-lg mb-2"><i class="fas fa-star text-yellow-500 mr-2"></i>Contoh Rangka Cerita Cemerlang</h4>
+                    <p class="text-green-900 leading-relaxed text-justify">Loceng rehat berbunyi. Murid-murid keluar dari kelas dengan teratur. Suasana di kawasan sekolah sangat meriah dengan pelbagai aktiviti berfaedah.</p>
+                    <p class="text-green-900 leading-relaxed text-justify mt-2">Beberapa orang murid sedang asyik membaca buku cerita di Pondok Bacaan untuk menambah ilmu. Di sudut lain, kelihatan dua orang murid lelaki sedang bermain catur di meja batu bagi mengasah minda. Sementara itu, ahli Kelab Sains pula rajin menyiram pokok bunga di Taman Sains sekolah.</p>
+                    <p class="text-green-900 leading-relaxed text-justify mt-2">Masa rehat dihabiskan dengan aktiviti yang sangat bermanfaat.</p>
+                    <div class="mt-4 bg-white p-3 rounded border border-green-200">
+                        <p class="text-sm text-green-800"><strong>Ulasan Guru:</strong> Karangan yang baik mesti memerihalkan sekurang-kurangnya 3 aktiviti yang terdapat dalam gambar. Penggunaan kosa kata yang menarik seperti 'mengasah minda', 'asyik', dan 'bermanfaat' akan memberikan markah cemerlang.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p>&copy; 2026 Sistem Aplikasi Pendidikan Digital. Direka khusus untuk pengayaan minda murid secara berkesan.</p>
+        </div>
+    </footer>
+
+    <!-- Audio API setup -->
+    <script>
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSound(type) {
+            initAudio();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            if (type === 'correct') {
+                // Happy Ding
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1); // C6
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.5);
+            } else if (type === 'wrong') {
+                // Warning Buzz
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'submit') {
+                // Soft chime for subjective
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.0);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 1.0);
+            }
+        }
+
+        // --- Data Soalan Bahagian A ---
+        const questionsA = [
+            {
+                id: 1,
+                text: "Ketua Kampung Semantani berasa _______ akan kegigihan Pak Rani mencari rezeki walaupun dia cacat penglihatan.",
+                options: ["sayu", "sedih", "sebak", "kagum"],
+                answerIndex: 3,
+                explanation: "Perkataan 'kagum' adalah paling tepat kerana menunjukkan rasa takjub atau bangga melihat semangat Pak Rani walaupun beliau mempunyai kekurangan."
+            },
+            {
+                id: 2,
+                text: "Guru menasihati murid-murid tahun 6 agar _______ masa lapang dengan kerja-kerja yang berfaedah.",
+                options: ["mengisi", "memilih", "membuat", "mengambil"],
+                answerIndex: 0,
+                explanation: "Frasa yang betul ialah 'mengisi masa lapang'. Ini ialah kolokasi (gabungan kata) yang standard dalam bahasa Melayu."
+            },
+            {
+                id: 3,
+                text: "Pilih ayat yang betul.",
+                options: [
+                    "Cis, cantiknya rumah banglo itu!",
+                    "Wah, sakitnya kaki terpijak duri!",
+                    "Nah, datanglah ke rumah emak saya!",
+                    "Aduhai, malang sungguh nasib pekerja itu!"
+                ],
+                answerIndex: 3,
+                explanation: "'Aduhai' digunakan untuk melahirkan rasa sedih/keluhan. Penggunaan kata seru pada pilihan lain salah (Cis untuk marah, Wah untuk kagum, Nah untuk menghulurkan barang)."
+            },
+            {
+                id: 4,
+                context: "<strong>Petikan:</strong> Pada cuti sekolah yang lalu, Haziq akan pulang ke kampung bersama-sama ibu dan bapanya. Kepulangan mereka disambut mesra oleh datuk dan nenek...",
+                text: "Siapakah yang pulang ke kampung bersama-sama Haziq?",
+                options: ["Ibu dan nenek.", "Pak usu dan datuk.", "Datuk dan nenek.", "Ibu dan bapa."],
+                answerIndex: 3,
+                explanation: "Terdapat jelas pada ayat pertama petikan: '...pulang ke kampung bersama-sama ibu dan bapanya.'"
+            },
+            {
+                id: 5,
+                text: "Pilih pernyataan yang benar tentang petikan tadi.",
+                options: [
+                    "Pak usu mengajar Haziq memancing ikan di sungai.",
+                    "Haziq tidak gembira kerana memperoleh pengalaman baru.",
+                    "Pak usu berjanji akan mengajar Haziq cara memikat burung.",
+                    "Kepulangan Haziq disambut mesra oleh pak usu."
+                ],
+                answerIndex: 0,
+                explanation: "Petikan menyatakan: '...dia diajar oleh pak usu cara memancing ikan di sungai...' Pernyataan A adalah tepat."
+            },
+            {
+                id: 6,
+                text: "Berikut ialah aktiviti yang dilakukan oleh Haziq ketika di kampung berdasarkan petikan <em>kecuali</em>",
+                options: ["menanam cili.", "memikat burung.", "mengait buah rambutan.", "membuat layang-layang."],
+                answerIndex: 1,
+                explanation: "Memikat burung belum dilakukan. Datuknya baru sahaja berjanji akan mengajarnya pada cuti sekolah akan datang."
+            },
+            {
+                id: 7,
+                context: "<strong>Bahan: Hari Riang Ria STEM</strong><br/>Faris, Ramu dan Azri berkawan baik. Mereka sangat berminat dengan inovasi dan teknologi baharu. Mereka menyertai Kelab STEM di sekolah.",
+                text: "Faris, Ramu dan Azri sangat berminat dengan",
+                options: [
+                    "jambatan menggunakan penyedut minuman.",
+                    "aktiviti sains angkasa iaitu roket air.",
+                    "inovasi dan teknologi baharu.",
+                    "Kelab STEM di sekolah."
+                ],
+                answerIndex: 2,
+                explanation: "Berdasarkan Bahan 2, ayat kedua dengan jelas menyatakan 'Mereka sangat berminat dengan inovasi dan teknologi baharu.'"
+            },
+            {
+                id: 8,
+                context: "...membina <u>jambatan</u> menggunakan penyedut minuman.",
+                text: "Penjodoh bilangan yang sesuai dengan perkataan bergaris di atas ialah",
+                options: ["biji", "buah", "baris", "batang"],
+                answerIndex: 1,
+                explanation: "Penjodoh bilangan untuk benda yang besar, padu, dan tidak mempunyai bentuk yang khusus seperti bangunan, jambatan, dan kereta ialah 'buah'."
+            },
+            {
+                id: 9,
+                text: "Perkataan <em>berilmu</em> dalam petikan boleh digantikan dengan perkataan",
+                options: ["berbakat", "berpotensi", "berpengetahuan", "berketerampilan"],
+                answerIndex: 2,
+                explanation: "'Ilmu' sinonim dengan 'pengetahuan'. Oleh itu, 'berilmu' bermaksud mempunyai pengetahuan (berpengetahuan)."
+            },
+            {
+                id: 10,
+                text: "Pilih pernyataan yang benar tentang bahan Hari Riang Ria STEM.",
+                options: [
+                    "Kelab STEM melahirkan murid yang berilmu dan berbakat.",
+                    "Faris, Ramu dan Azri menyertai pertandingan inovasi STEM.",
+                    "Hari Riang Ria dianjurkan oleh Kelab STEM SK Taman Raya.",
+                    "Aktiviti sains angkasa terbuka kepada semua murid SK Taman Raya."
+                ],
+                answerIndex: 0,
+                explanation: "Dalam Bahan 1 (Objektif) dan Bahan 2 (Perenggan 2), dinyatakan secara langsung bahawa ia dapat 'melahirkan murid berilmu dan berbakat'."
+            }
+        ];
+
+        let score = 0;
+        
+        // Render Questions
+        const containerA = document.getElementById('questionsContainerA');
+        
+        questionsA.forEach((q, index) => {
+            // State for each question
+            q.attempts = 0;
+            q.solved = false;
+
+            const qDiv = document.createElement('div');
+            qDiv.className = 'glass-card p-6 md:p-8';
+            qDiv.id = `q-${index}`;
+            
+            let contextHtml = '';
+            if (q.context) {
+                contextHtml = `<div class="bg-indigo-50 border border-indigo-100 p-4 rounded-lg mb-4 text-gray-700 text-sm">${q.context}</div>`;
+            }
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                optionsHtml += `
+                    <button id="btn-${index}-${optIndex}" 
+                            class="btn-option w-full text-left p-4 rounded-lg border border-gray-200 bg-white hover:bg-indigo-50 mb-3"
+                            onclick="handleAnswer(${index}, ${optIndex})">
+                        <span class="font-bold mr-3 inline-block w-6 h-6 text-center rounded-full bg-gray-100 text-gray-600">${String.fromCharCode(65 + optIndex)}</span>
+                        ${opt}
+                    </button>
+                `;
+            });
+
+            qDiv.innerHTML = `
+                <div class="flex items-start mb-4">
+                    <span class="bg-indigo-600 text-white font-bold px-3 py-1 rounded shadow mr-4">${index + 1}</span>
+                    <div class="w-full">
+                        ${contextHtml}
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">${q.text}</h3>
+                        <div id="options-${index}">
+                            ${optionsHtml}
+                        </div>
+                        <div id="feedback-${index}" class="hidden mt-4 p-4 rounded-lg border"></div>
+                    </div>
+                </div>
+            `;
+            containerA.appendChild(qDiv);
+        });
+
+        // Handle Answers for Bahagian A
+        function handleAnswer(qIndex, optIndex) {
+            initAudio(); // Required by some browsers to unlock audio context on click
+            const q = questionsA[qIndex];
+            
+            if (q.solved) return; // Prevent clicking after solved
+
+            q.attempts++;
+            const btn = document.getElementById(`btn-${qIndex}-${optIndex}`);
+            const feedbackBox = document.getElementById(`feedback-${qIndex}`);
+
+            if (optIndex === q.answerIndex) {
+                // Correct!
+                q.solved = true;
+                playSound('correct');
+                
+                btn.classList.add('correct');
+                
+                // Score logic: point given if attempts <= 2
+                let msg = '';
+                if (q.attempts <= 2) {
+                    score++;
+                    document.getElementById('currentScore').innerText = score;
+                    msg = `<p class="text-green-800 font-bold"><i class="fas fa-check-circle mr-2"></i>Tepat! Anda mendapat markah. (Percubaan ke-${q.attempts})</p>`;
+                } else {
+                    msg = `<p class="text-yellow-700 font-bold"><i class="fas fa-info-circle mr-2"></i>Betul, namun tiada markah dikira kerana melepasi 2 percubaan.</p>`;
+                }
+
+                // Show explanation
+                feedbackBox.className = 'mt-4 p-4 rounded-lg border bg-green-50 border-green-200 fade-in block';
+                feedbackBox.innerHTML = `
+                    ${msg}
+                    <hr class="my-2 border-green-200">
+                    <p class="text-green-900 text-sm"><strong>Ulasan:</strong> ${q.explanation}</p>
+                `;
+
+                // Disable all other buttons
+                const allBtns = document.querySelectorAll(`#options-${qIndex} button`);
+                allBtns.forEach(b => {
+                    b.disabled = true;
+                    b.classList.add('opacity-50', 'cursor-not-allowed');
+                });
+                btn.classList.remove('opacity-50');
+
+            } else {
+                // Wrong!
+                playSound('wrong');
+                btn.classList.add('wrong');
+                btn.disabled = true;
+                
+                // Optional: show hint or attempt count
+                feedbackBox.className = 'mt-4 p-3 rounded-lg border bg-red-50 border-red-200 fade-in block';
+                feedbackBox.innerHTML = `<p class="text-red-700 text-sm"><i class="fas fa-times-circle mr-2"></i>Kurang tepat. Sila cuba lagi! (Percubaan ke-${q.attempts})</p>`;
+                
+                // remove wrong animation class after short delay to allow re-trigger if needed on others
+                setTimeout(() => {
+                    btn.classList.remove('wrong');
+                    btn.classList.add('bg-red-50', 'border-red-200', 'text-red-400');
+                }, 400);
+            }
+        }
+
+        // Handle Subjective Submission
+        function checkSubjective(sectionId) {
+            playSound('submit');
+            const feedback = document.getElementById(`feedback${sectionId}`);
+            feedback.classList.remove('hidden');
+            feedback.classList.add('fade-in');
+        }
+
+        // Tab Switching
+        function showTab(tabName) {
+            ['A', 'B', 'C', 'D'].forEach(t => {
+                document.getElementById(`sec${t}`).classList.add('hidden');
+                document.getElementById(`tab${t}`).classList.remove('active');
+            });
+            
+            document.getElementById(`sec${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab${tabName}`).classList.add('active');
+            
+            // hide score board if not in tab A
+            if (tabName !== 'A') {
+                document.getElementById('scoreBoard').style.display = 'none';
+            } else {
+                document.getElementById('scoreBoard').style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
