@@ -70,22 +70,18 @@
                 </div>
                 
                 <div class="space-y-6">
-                    <!-- Q1a -->
                     <div>
                         <label class="block font-semibold mb-2">a) Faiz, Siva dan Lim mengumpul barang-barang terpakai dan...</label>
                         <input type="text" id="ansB1a" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini...">
                     </div>
-                    <!-- Q1b -->
                     <div>
                         <label class="block font-semibold mb-2">b) Apakah bahan yang boleh dikitar semula?</label>
                         <textarea id="ansB1b" rows="2" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini..."></textarea>
                     </div>
-                    <!-- Q1c -->
                     <div>
                         <label class="block font-semibold mb-2">c) Berikan satu kata nama khas yang terdapat dalam petikan di atas.</label>
                         <input type="text" id="ansB1c" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Taip jawapan anda di sini...">
                     </div>
-                    <!-- Q1d -->
                     <div>
                         <label class="block font-semibold mb-2">d) Tuliskan ( BETUL ) bagi ayat yang sama maksud dengan: "Projek kitar semula dapat mewujudkan persekitaran sekolah yang bersih."</label>
                         <div class="space-y-2 mt-2">
@@ -186,13 +182,12 @@
                 <textarea id="ansD" rows="8" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Karang jawapan anda di sini..."></textarea>
                 <button onclick="checkSubjective('D')" class="mt-4 w-full md:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg shadow hover:bg-indigo-700 transition font-bold">Hantar Karangan</button>
                 
+                <!-- Feedback Dinamik -->
                 <div id="feedbackD" class="hidden mt-6 p-6 bg-green-50 border-l-4 border-green-500 rounded-lg">
-                    <h4 class="font-bold text-green-800 text-lg mb-2"><i class="fas fa-star text-yellow-500 mr-2"></i>Contoh Rangka Cerita Cemerlang</h4>
-                    <p class="text-green-900 leading-relaxed text-justify">Loceng rehat berbunyi. Murid-murid keluar dari kelas dengan teratur. Suasana di kawasan sekolah sangat meriah dengan pelbagai aktiviti berfaedah.</p>
-                    <p class="text-green-900 leading-relaxed text-justify mt-2">Beberapa orang murid sedang asyik membaca buku cerita di Pondok Bacaan untuk menambah ilmu. Di sudut lain, kelihatan dua orang murid lelaki sedang bermain catur di meja batu bagi mengasah minda. Sementara itu, ahli Kelab Sains pula rajin menyiram pokok bunga di Taman Sains sekolah.</p>
-                    <p class="text-green-900 leading-relaxed text-justify mt-2">Masa rehat dihabiskan dengan aktiviti yang sangat bermanfaat.</p>
+                    <h4 id="feedbackTitle" class="font-bold text-green-800 text-lg mb-2"><i class="fas fa-star text-yellow-500 mr-2"></i>Contoh Rangka Cemerlang</h4>
+                    <p id="feedbackContent" class="text-green-900 leading-relaxed text-justify"></p>
                     <div class="mt-4 bg-white p-3 rounded border border-green-200">
-                        <p class="text-sm text-green-800"><strong>Ulasan Guru:</strong> Karangan yang baik mesti memerihalkan sekurang-kurangnya 3 aktiviti yang terdapat dalam gambar. Penggunaan kosa kata yang menarik seperti 'mengasah minda', 'asyik', dan 'bermanfaat' akan memberikan markah cemerlang.</p>
+                        <p class="text-sm text-green-800" id="feedbackNote"></p>
                     </div>
                 </div>
             </div>
@@ -230,16 +225,14 @@
             gainNode.connect(audioCtx.destination);
             
             if (type === 'correct') {
-                // Happy Ding
                 oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-                oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1); // C6
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+                oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1); 
                 gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
                 oscillator.start();
                 oscillator.stop(audioCtx.currentTime + 0.5);
             } else if (type === 'wrong') {
-                // Warning Buzz
                 oscillator.type = 'sawtooth';
                 oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
@@ -248,7 +241,6 @@
                 oscillator.start();
                 oscillator.stop(audioCtx.currentTime + 0.2);
             } else if (type === 'submit') {
-                // Soft chime for subjective
                 oscillator.type = 'triangle';
                 oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3);
@@ -326,7 +318,7 @@
                 id: 7,
                 context: `
                 <div class="mb-6">
-                   <p class="font-bold text-gray-800 mb-5 text-base">Soalan 7 hingga 10<br><span class="font-normal italic text-gray-600 mt-1 inline-block">
+                   <p class="font-bold text-gray-800 mb-5 text-base">Soalan 7 hingga 10<br><span class="font-normal italic text-gray-600 mt-1 inline-block">Baca maklumat dalam Bahan 1 dan Bahan 2 dengan teliti, kemudian jawab soalan-soalan yang berikutnya.</span></p>
                     
                     <h4 class="font-bold text-indigo-700 mb-2 border-b-2 border-indigo-200 inline-block pb-1">BAHAN 1</h4>
                     <img src="images/Bahan_1.jpg" alt="Bahan 1 - Hari Riang Ria STEM" class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200 mb-6 mt-2">
@@ -382,7 +374,6 @@
         const containerA = document.getElementById('questionsContainerA');
         
         questionsA.forEach((q, index) => {
-            // State for each question
             q.attempts = 0;
             q.solved = false;
 
@@ -391,7 +382,7 @@
             qDiv.id = `q-${index}`;
             
             let contextHtml = '';
-           if (q.context) {
+            if (q.context) {
                 contextHtml = `<div class="bg-indigo-50 border border-indigo-100 p-5 rounded-lg mb-5 text-gray-800 text-base leading-relaxed">${q.context}</div>`;
             }
 
@@ -425,23 +416,19 @@
 
         // Handle Answers for Bahagian A
         function handleAnswer(qIndex, optIndex) {
-            initAudio(); // Required by some browsers to unlock audio context on click
+            initAudio();
             const q = questionsA[qIndex];
-            
-            if (q.solved) return; // Prevent clicking after solved
+            if (q.solved) return; 
 
             q.attempts++;
             const btn = document.getElementById(`btn-${qIndex}-${optIndex}`);
             const feedbackBox = document.getElementById(`feedback-${qIndex}`);
 
             if (optIndex === q.answerIndex) {
-                // Correct!
                 q.solved = true;
                 playSound('correct');
-                
                 btn.classList.add('correct');
                 
-                // Score logic: point given if attempts <= 2
                 let msg = '';
                 if (q.attempts <= 2) {
                     score++;
@@ -451,7 +438,6 @@
                     msg = `<p class="text-yellow-700 font-bold"><i class="fas fa-info-circle mr-2"></i>Betul, namun tiada markah dikira kerana melepasi 2 percubaan.</p>`;
                 }
 
-                // Show explanation
                 feedbackBox.className = 'mt-4 p-4 rounded-lg border bg-green-50 border-green-200 fade-in block';
                 feedbackBox.innerHTML = `
                     ${msg}
@@ -459,7 +445,6 @@
                     <p class="text-green-900 text-sm"><strong>Ulasan:</strong> ${q.explanation}</p>
                 `;
 
-                // Disable all other buttons
                 const allBtns = document.querySelectorAll(`#options-${qIndex} button`);
                 allBtns.forEach(b => {
                     b.disabled = true;
@@ -468,16 +453,13 @@
                 btn.classList.remove('opacity-50');
 
             } else {
-                // Wrong!
                 playSound('wrong');
                 btn.classList.add('wrong');
                 btn.disabled = true;
                 
-                // Optional: show hint or attempt count
                 feedbackBox.className = 'mt-4 p-3 rounded-lg border bg-red-50 border-red-200 fade-in block';
                 feedbackBox.innerHTML = `<p class="text-red-700 text-sm"><i class="fas fa-times-circle mr-2"></i>Kurang tepat. Sila cuba lagi! (Percubaan ke-${q.attempts})</p>`;
                 
-                // remove wrong animation class after short delay to allow re-trigger if needed on others
                 setTimeout(() => {
                     btn.classList.remove('wrong');
                     btn.classList.add('bg-red-50', 'border-red-200', 'text-red-400');
@@ -491,6 +473,23 @@
             const feedback = document.getElementById(`feedback${sectionId}`);
             feedback.classList.remove('hidden');
             feedback.classList.add('fade-in');
+
+            if (sectionId === 'D') {
+                const format = document.getElementById('formatD').value;
+                const title = document.getElementById('feedbackTitle');
+                const content = document.getElementById('feedbackContent');
+                const note = document.getElementById('feedbackNote');
+
+                if (format === 'surat') {
+                    title.innerHTML = '<i class="fas fa-envelope text-yellow-500 mr-2"></i>Contoh Surat Kiriman Tidak Rasmi';
+                    content.innerHTML = `Menemui sahabatku, Ali yang berada di Kuala Lumpur. Apa khabar? Saya harap awak sihat di sana.<br><br>Untuk pengetahuan awak, waktu rehat di sekolah saya sangat menyeronokkan. Kami menghabiskan masa dengan membaca buku di Pondok Bacaan, bermain catur di bangku batu, dan menjaga pokok di Taman Sains. Aktiviti ini sangat bermanfaat untuk mengisi masa lapang.<br><br>Sekian sahaja untuk kali ini. Semoga kita dapat berjumpa lagi.`;
+                    note.innerHTML = '<strong>Ulasan Guru:</strong> Surat kiriman tidak rasmi mesti mempunyai alamat, tarikh, kata sapaan, isi yang jelas, dan penutup yang sesuai.';
+                } else {
+                    title.innerHTML = '<i class="fas fa-star text-yellow-500 mr-2"></i>Contoh Rangka Cerita Cemerlang';
+                    content.innerHTML = `Loceng rehat berbunyi. Murid-murid keluar dari kelas dengan teratur. Suasana di kawasan sekolah sangat meriah dengan pelbagai aktiviti berfaedah.<br><br>Beberapa orang murid sedang asyik membaca buku cerita di Pondok Bacaan untuk menambah ilmu. Di sudut lain, kelihatan dua orang murid lelaki sedang bermain catur di meja batu bagi mengasah minda. Sementara itu, ahli Kelab Sains pula rajin menyiram pokok bunga di Taman Sains sekolah.<br><br>Masa rehat dihabiskan dengan aktiviti yang sangat bermanfaat.`;
+                    note.innerHTML = '<strong>Ulasan Guru:</strong> Karangan cerita perlu menggunakan kosa kata menarik seperti "asyik", "mengasah minda", dan "bermanfaat" untuk memberikan markah cemerlang.';
+                }
+            }
         }
 
         // Tab Switching
@@ -503,7 +502,6 @@
             document.getElementById(`sec${tabName}`).classList.remove('hidden');
             document.getElementById(`tab${tabName}`).classList.add('active');
             
-            // hide score board if not in tab A
             if (tabName !== 'A') {
                 document.getElementById('scoreBoard').style.display = 'none';
             } else {
