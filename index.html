@@ -20,14 +20,12 @@
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Header Keseluruhan -->
     <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 py-6 text-center">
             <h1 class="text-3xl font-extrabold tracking-tight"><i class="fas fa-graduation-cap mr-3"></i>Kuiz Interaktif Bahasa Melayu</h1>
             <p class="mt-2 text-indigo-200 text-lg">Aplikasi pengayaan santai untuk menguji minda pada waktu lapang.</p>
         </div>
         
-        <!-- Tab Navigation (Awalnya Disembunyikan) -->
         <div id="navTabs" class="bg-white text-gray-600 shadow-inner hidden">
             <div class="max-w-5xl mx-auto px-4 flex justify-between overflow-x-auto">
                 <button onclick="showTab('A')" id="tabA" class="tab-btn active px-6 py-4 whitespace-nowrap hover:text-indigo-600 transition">Bahagian A (Objektif)</button>
@@ -40,7 +38,6 @@
 
     <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-8 relative">
         
-        <!-- SKRIN PENDAFTARAN MURID -->
         <div id="loginScreen" class="max-w-md mx-auto glass-card p-8 mt-10 fade-in border border-indigo-100">
             <div class="text-center mb-6">
                 <i class="fas fa-user-graduate text-5xl text-indigo-500 mb-3"></i>
@@ -51,22 +48,31 @@
                 <label class="block text-gray-700 mb-2 font-semibold">Nama Penuh</label>
                 <input type="text" id="studentName" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Contoh: Ahmad bin Abu" required>
             </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 mb-2 font-semibold">Kelas</label>
-                <select id="studentClass" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" required>
-                    <option value="">-- Pilih Kelas --</option>
-                    <option value="6 Cerdas">6 Cerdas</option>
-                    <option value="6 Pintar">6 Pintar</option>
-                    <option value="6 Dinamik">6 Dinamik</option>
-                    <option value="6 Aktif">6 Aktif</option>
-                </select>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 mb-2 font-semibold">Tahun</label>
+                    <select id="studentYear" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="4">Tahun 4</option>
+                        <option value="5">Tahun 5</option>
+                        <option value="6">Tahun 6</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2 font-semibold">Kelas</label>
+                    <select id="studentClassName" class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="Jaya">Jaya</option>
+                        <option value="Usaha">Usaha</option>
+                    </select>
+                </div>
             </div>
+
             <button onclick="startQuiz()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition transform hover:-translate-y-1">Mula Jawab</button>
         </div>
 
-        <!-- KONTENA KUIZ UTAMA (Awalnya Disembunyikan) -->
         <div id="quizApp" class="hidden">
-            <!-- Score Dashboard for Bahagian A -->
             <div id="scoreBoard" class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-8 flex justify-between items-center shadow-sm">
                 <div>
                     <h2 class="text-lg font-bold text-indigo-800">Skor Bahagian A</h2>
@@ -77,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- Bahagian A -->
             <section id="secA" class="fade-in space-y-8">
                 <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
                     <p class="text-sm text-yellow-800"><strong>Arahan:</strong> Pilih jawapan yang paling sesuai. Anda boleh mencuba sehingga mendapat jawapan yang betul, namun markah hanya dikira jika anda berjaya pada percubaan pertama atau kedua.</p>
@@ -85,7 +90,6 @@
                 <div id="questionsContainerA"></div>
             </section>
 
-            <!-- Bahagian B -->
             <section id="secB" class="fade-in hidden space-y-8">
                 <div class="glass-card p-6 md:p-8">
                     <h2 class="text-2xl font-bold border-b pb-2 mb-4">Soalan 1</h2>
@@ -153,7 +157,6 @@
                 </div>
             </section>
 
-            <!-- Bahagian C -->
             <section id="secC" class="fade-in hidden space-y-8">
                 <div class="glass-card p-6 md:p-8">
                     <h2 class="text-2xl font-bold border-b pb-2 mb-4">Bahagian C: Ulasan (10 Markah)</h2>
@@ -181,7 +184,6 @@
                 </div>
             </section>
 
-            <!-- Bahagian D -->
             <section id="secD" class="fade-in hidden space-y-8">
                 <div class="glass-card p-6 md:p-8">
                     <h2 class="text-2xl font-bold border-b pb-2 mb-4">Bahagian D: Karangan (20 Markah)</h2>
@@ -208,7 +210,6 @@
                     </div>
                 </div>
 
-                <!-- BUTANG HANTAR KESELURUHAN -->
                 <div class="mt-12 bg-indigo-50 p-8 rounded-xl border-2 border-indigo-200 text-center shadow-sm">
                     <h3 class="text-2xl font-extrabold text-indigo-800 mb-2">Selesai Menjawab?</h3>
                     <p class="text-indigo-600 mb-6 font-medium">Pastikan anda telah menyemak semua jawapan dari Bahagian A hingga D sebelum menghantar.</p>
@@ -225,10 +226,9 @@
         </div>
     </footer>
 
-    <!-- Audio API setup & Script -->
     <script>
         // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwSugbrdPN8272A938QVX0rjHM83MLZpybDGyxE33CWsJDddLI3_a5Wtf7JnABUdWI/exec'; 
+        const scriptURL = 'MASUKKAN_URL_WEB_APP_ANDA_DI_SINI'; 
 
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
@@ -269,14 +269,17 @@
             }
         }
 
-        // Mula Kuiz Function
+        // Mula Kuiz Function (Dikemaskini untuk mengambil Tahun dan Kelas berasingan)
         function startQuiz() {
             const name = document.getElementById('studentName').value;
-            const cls = document.getElementById('studentClass').value;
-            if(!name || !cls) {
-                alert("Sila isi nama dan pilih kelas dahulu untuk meneruskan.");
+            const year = document.getElementById('studentYear').value;
+            const clsName = document.getElementById('studentClassName').value;
+            
+            if(!name || !year || !clsName) {
+                alert("Sila isi nama, pilih tahun dan kelas dahulu untuk meneruskan.");
                 return;
             }
+            
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('navTabs').classList.remove('hidden');
             document.getElementById('quizApp').classList.remove('hidden');
@@ -288,7 +291,7 @@
             { id: 1, text: "Ketua Kampung Semantani berasa _______ akan kegigihan Pak Rani mencari rezeki walaupun dia cacat penglihatan.", options: ["sayu", "sedih", "sebak", "kagum"], answerIndex: 3, explanation: "Perkataan 'kagum' adalah paling tepat kerana menunjukkan rasa takjub atau bangga melihat semangat Pak Rani walaupun beliau mempunyai kekurangan." },
             { id: 2, text: "Guru menasihati murid-murid tahun 6 agar _______ masa lapang dengan kerja-kerja yang berfaedah.", options: ["mengisi", "memilih", "membuat", "mengambil"], answerIndex: 0, explanation: "Frasa yang betul ialah 'mengisi masa lapang'. Ini ialah kolokasi (gabungan kata) yang standard dalam bahasa Melayu." },
             { id: 3, text: "Pilih ayat yang betul.", options: ["Cis, cantiknya rumah banglo itu!", "Wah, sakitnya kaki terpijak duri!", "Nah, datanglah ke rumah emak saya!", "Aduhai, malang sungguh nasib pekerja itu!"], answerIndex: 3, explanation: "'Aduhai' digunakan untuk melahirkan rasa sedih/keluhan. Penggunaan kata seru pada pilihan lain salah." },
-            { id: 4, context: `<div class="mb-6"><p class="font-bold text-gray-800 mb-5 text-base">Soalan 4 hingga 6<br><span class="font-normal italic text-gray-600 mt-1 inline-block">Baca petikan di bawah dengan teliti, kemudian jawab soalan-soalan yang berikutnya.</span></p><div class="bg-white p-5 border border-gray-200 rounded-lg shadow-sm text-gray-700 mt-2 leading-relaxed text-justify"><p class="mb-3">Pada cuti sekolah yang lalu, Haziq akan pulang ke kampung bersama-sama ibu dan bapanya. Kepulangan mereka disambut mesra oleh datuk dan nenek. Ketika Haziq berada di kampung, dia diajar oleh pak usu cara memancing ikan di sungai, mengait buah rambutan, membuat layang-layang dan menanam cili.</p><p>Haziq berasa gembira kerana memperoleh pengalaman baru. Datuknya berjanji akan mengajar Haziq cara memikat burung semasa cuti sekolah akan datang.</p></div></div>`, text: "Siapakah yang pulang ke kampung bersama-sama Haziq?", options: ["Ibu dan nenek.", "Pak usu dan datuk.", "Datuk dan nenek.", "Ibu dan bapa."], answerIndex: 3, explanation: "Terdapat jelas pada ayat pertama petikan." },
+            { id: 4, context: `<div class="mb-6"><p class="font-bold text-gray-800 mb-5 text-base">Soalan 4 hingga 6<br><span class="font-normal italic text-gray-600 mt-1 inline-block">Baca petikan di bawah dengan teliti, kemudian jawab soalan-soalan yang berikutnya.</span></p><div class="bg-white p-5 border border-gray-200 rounded-lg shadow-sm text-gray-700 mt-2 leading-relaxed text-justify"><p class="mb-3">Pada cuti sekolah yang lalu, Haziq akan pulang ke kampung bersama-sama ibu dan bapanya. Kepulangan mereka disambut mesra oleh datuk dan nenek. Ketika Haziq berada di kampung, dia diajar oleh pak usu cara memancing ikan di sungai, mengait buah rambutan, membuat layang-layang dan menanam cili.</p><p>Haziq berasa gembira kerana memperoleh pengalaman baru. Datuknya berjanji akan mengajar Haziq cara memikat burung semasa cuti sekolah akan datang.</p></div></div>`, text: "Siapakah yang pulang ke kampung bersama-sama Haziq?", options: ["Ibu dan nenek.", "Pak usu dan datuk.", "Datuk dan nenek.", "Ibu dan bapa."], answerIndex: 3, explanation: "Terdapat jelas pada ayat pertama petikan: '...pulang ke kampung bersama-sama ibu dan bapanya.'" },
             { id: 5, text: "Pilih pernyataan yang benar tentang petikan tadi.", options: ["Pak usu mengajar Haziq memancing ikan di sungai.", "Haziq tidak gembira kerana memperoleh pengalaman baru.", "Pak usu berjanji akan mengajar Haziq cara memikat burung.", "Kepulangan Haziq disambut mesra oleh pak usu."], answerIndex: 0, explanation: "Petikan menyatakan: '...dia diajar oleh pak usu cara memancing ikan di sungai...'" },
             { id: 6, text: "Berikut ialah aktiviti yang dilakukan oleh Haziq ketika di kampung berdasarkan petikan <em>kecuali</em>", options: ["menanam cili.", "memikat burung.", "mengait buah rambutan.", "membuat layang-layang."], answerIndex: 1, explanation: "Memikat burung belum dilakukan. Datuknya baru sahaja berjanji akan mengajarnya pada cuti sekolah akan datang." },
             { id: 7, context: `<div class="mb-6"><p class="font-bold text-gray-800 mb-5 text-base">Soalan 7 hingga 10<br><span class="font-normal italic text-gray-600 mt-1 inline-block">Baca maklumat dalam Bahan 1 dan Bahan 2 dengan teliti, kemudian jawab soalan-soalan yang berikutnya.</span></p><h4 class="font-bold text-indigo-700 mb-2 border-b-2 border-indigo-200 inline-block pb-1">BAHAN 1</h4><img src="images/Bahan_1.jpg" alt="Bahan 1" class="max-w-full h-auto rounded-lg shadow-sm border border-gray-200 mb-6 mt-2"><h4 class="font-bold text-indigo-700 mb-2 border-b-2 border-indigo-200 inline-block pb-1">BAHAN 2</h4><div class="bg-white p-5 border border-gray-200 rounded-lg shadow-sm text-gray-700 mt-2 leading-relaxed text-justify"><p class="mb-3">Faris, Ramu dan Azri berkawan baik. Mereka sangat berminat dengan inovasi dan teknologi baharu. Mereka menyertai Kelab STEM (Sains Teknologi Kejuruteraan Matematik) di sekolah.</p><p>Kelab STEM ini dapat melahirkan murid <em>berilmu</em>, berbakat dan berdaya saing. Faris mempelajari aktiviti sains angkasa iaitu roket air dan membina jambatan menggunakan penyedut minuman. Mereka berasa gembira kerana dapat menyertai kelab ini.</p></div></div>`, text: "Faris, Ramu dan Azri sangat berminat dengan", options: ["jambatan menggunakan penyedut minuman.", "aktiviti sains angkasa iaitu roket air.", "inovasi dan teknologi baharu.", "Kelab STEM di sekolah."], answerIndex: 2, explanation: "Berdasarkan Bahan 2, ayat kedua perenggan pertama dengan jelas menyatakan hal ini." },
@@ -389,7 +392,9 @@
             btn.disabled = true;
 
             const name = document.getElementById('studentName').value;
-            const cls = document.getElementById('studentClass').value;
+            const year = document.getElementById('studentYear').value;
+            const clsName = document.getElementById('studentClassName').value;
+            const cls = year + " " + clsName; // Gabungkan cth: "6 Jaya"
             
             // Kumpul Jawapan Bahagian B
             const b1a = document.getElementById('ansB1a').value || "Tiada";
@@ -404,10 +409,9 @@
             const jawapanC = document.getElementById('ansC').value || "Tiada";
             const jawapanD = document.getElementById('ansD').value || "Tiada";
 
-            // Susun data untuk dihantar (URLSearchParams menghalang ralat CORS)
             const formData = new URLSearchParams();
             formData.append('nama', name);
-            formData.append('kelas', cls);
+            formData.append('kelas', cls); // "6 Jaya" akan dihantar terus ke Google Sheet
             formData.append('skorA', score);
             formData.append('jawapanB', jawapanB);
             formData.append('jawapanC', jawapanC);
